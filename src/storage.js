@@ -12,7 +12,6 @@ const setToDos = function setToDos(objectName, array) {
 };
 
 //this functions saves the data from localStorage to the local toDo array
-
 const overwriteToDosArray = function overwriteToDosArray(array) {
     let localStorageObject = getToDos(array);
     let parsedObject = JSON.parse(localStorageObject);
