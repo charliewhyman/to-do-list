@@ -1,5 +1,5 @@
 import createToDo from "./toDos";
-import {getToDos, setToDos} from "./storage";
+import {getToDos, setToDos, overwriteToDosArray} from "./storage";
 
 //create array to store toDos
 let toDos = [];
@@ -17,3 +17,7 @@ setToDos('toDos', toDos);
 //retrieve the stringified toDos object from localStorage and print
 let retrievedToDos = getToDos('toDos');
 console.log(retrievedToDos);
+
+//overwrite the toDos array with the toDos in local storage
+overwriteToDosArray(toDos);
+console.log(toDos);
