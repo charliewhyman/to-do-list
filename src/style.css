@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+  }
+
+#topNav {
+    color: white;
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topNavLink {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin: 0.2rem 0.2rem;
+  }
+
+  #title {
+    width: 40%;
+    font-size: 2rem;
+    font-family: monospace;
+}

@@ -12,4 +12,14 @@ const updateToDo = function updateToDo(array, projectName, toDoName, propertyNam
   array[foundObjectIndex].propertyName = newValue;
 };
 
-export {createToDo, updateToDo};
+//this function allows the user to delete a toDo
+const deleteToDo = function deleteToDo(array, projectName, toDoName) {
+  //find index of matching toDo, based on the project and toDo names
+  let foundObjectIndex = array.findIndex((obj => (obj.project == projectName && obj.title == toDoName)));
+
+  //remove object from array 
+  if (foundObjectIndex > -1) {
+    array.splice(foundObjectIndex, 1);
+  }};
+
+export {createToDo, updateToDo, deleteToDo};
