@@ -3,6 +3,7 @@ body {
   }
 
 #topNav {
+    margin-left: 100px;
     color: white;
     background-color: black;
     display: flex;
@@ -26,4 +27,43 @@ body {
     width: 40%;
     font-size: 2rem;
     font-family: monospace;
+}
+
+/* The sidebar menu */
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #111; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 1rem;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 0rem 1rem 1rem 1rem;
+  text-decoration: none;
+  font-size: large;
+  color: greenyellow;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+#sidenavTitle {
+  padding: 1rem 1rem 0rem 1rem;
+  font-size: larger;
+  color: white;
+  text-align: center;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
 }

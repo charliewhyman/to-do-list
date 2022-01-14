@@ -22,4 +22,9 @@ const deleteToDo = function deleteToDo(array, projectName, toDoName) {
     array.splice(foundObjectIndex, 1);
   }};
 
-export {createToDo, updateToDo, deleteToDo};
+const getUniqueProjects = function getUniqueProjects(array) {
+  //get the unique project values from the array
+  let uniqueProjects = [...new Set(array.map(item => item.project))];
+  return uniqueProjects;
+};
+export {createToDo, updateToDo, deleteToDo, getUniqueProjects};

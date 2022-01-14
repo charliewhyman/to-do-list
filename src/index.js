@@ -1,4 +1,4 @@
-import {createToDo, updateToDo, deleteToDo} from './toDos';
+import {createToDo, updateToDo, deleteToDo, getUniqueProjects} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
 //import {resetPage} from './ui'
 
@@ -78,6 +78,32 @@ function createTopNavLinks () {
 };
 
 createTopNavLinks();
+
+//create sidenav element
+var sidenav = document.createElement('div');
+sidenav.className = 'sidenav';
+document.body.appendChild(sidenav);
+
+var sidenavTitleDiv = document.createElement('div');
+sidenavTitleDiv.id = 'sidenavTitleDiv';
+sidenav.appendChild(sidenavTitleDiv);
+
+var sidenavTitle = document.createElement('h2');
+sidenavTitle.id = 'sidenavTitle';
+sidenavTitle.textContent = 'Projects';
+sidenavTitleDiv.appendChild(sidenavTitle);
+
+//add project links to sidebar
+    //get an array of unique projects
+let uniqueProjects = getUniqueProjects(toDos);
+
+uniqueProjects.forEach(project => {
+    let projectLink = document.createElement('a');
+    projectLink.href = '#';
+    projectLink.textContent = project;
+
+    sidenav.appendChild(projectLink);
+});
 
 //create container element
 var container = document.createElement('div');
