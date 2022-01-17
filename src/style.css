@@ -39,6 +39,7 @@ body {
   background-color: #111; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 1rem;
+  width: 25%;
 }
 
 /* The navigation menu links */
@@ -48,6 +49,9 @@ body {
   font-size: large;
   color: greenyellow;
   display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -66,4 +70,8 @@ body {
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+#container {
+  margin-left: 30%;
 }

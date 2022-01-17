@@ -10,7 +10,7 @@ let toDos = [];
 //testing
 //create two test toDos
 let testToDo = createToDo('testTitle','testProject','testDescription','testDueDate','testPriority');
-let testToDo2 = createToDo('testTitle2','testProject2','testDescription2','testDueDate2','testPriority2')
+let testToDo2 = createToDo('testTitle2','testProject2222222222222222222222222222222','testDescription2','testDueDate2','testPriority2')
 
 //add the new toDos to the toDos array
 toDos.push(testToDo);
@@ -26,7 +26,7 @@ let retrievedToDos = getToDos('toDos');
 overwriteToDosArray(toDos);
 
 //update toDo
-updateToDo(toDos, 'testProject2', 'testTitle2','dueDate','01/01/2001');
+updateToDo(toDos, 'testProject2222222222222222222222222222222','testTitle2','dueDate','01/01/2001');
 
 //push the toDos array to localStorage
 setToDos('toDos', toDos);
@@ -110,6 +110,48 @@ var container = document.createElement('div');
 container.id = 'container';
 document.body.appendChild(container);
 
+//get tasks based on selected project
+
+
+//add tasks as items in unordered list
+var projectList = document.createElement('ul');
+container.appendChild(projectList);
+
+toDos.forEach(toDo => {
+    let toDoListItem = document.createElement('li');
+    projectList.appendChild(toDoListItem);
+
+    //add check button to mark project complete
+    let checkButtonDiv = document.createElement('div');
+    toDoListItem.appendChild(checkButtonDiv);
+
+    let checkBox = document.createElement('input');
+    checkBox.type = 'checkbox';
+    checkBox.id = 'checkBox';
+
+    checkButtonDiv.appendChild(checkBox);
+
+    // add task item div
+    let taskItemDiv = document.createElement('div');
+    taskItemDiv.className = 'taskItemDiv';
+
+    toDoListItem.appendChild(taskItemDiv);
+
+    //add task name to task item div
+    let taskNameDiv = document.createElement('div');
+    taskNameDiv.className = 'taskNameDiv';
+    taskNameDiv.textContent = toDo.title;
+
+    taskItemDiv.appendChild(taskNameDiv);
+
+    //add task due date to task item div
+    let taskDueDateDiv = document.createElement('div');
+    taskDueDateDiv.className = 'taskDueDateDiv';
+    taskDueDateDiv.textContent = '\uD83D\uDCC5' + ' ' + toDo.dueDate;
+
+    taskItemDiv.appendChild(taskDueDateDiv);
+})
+
 //create footer element
 var footer = document.createElement('footer');
 footer.id = 'footer';
@@ -128,3 +170,5 @@ topNav.addEventListener('click', (event) => {
         console.log('about')
     };
 });
+
+//add event listener to projects to filter tasks
