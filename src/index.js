@@ -1,4 +1,4 @@
-import {createToDo, updateToDo, deleteToDo, getUniqueProjects} from './toDos';
+import {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
 //import {resetPage} from './ui'
 
@@ -35,12 +35,10 @@ setToDos('toDos', toDos);
 overwriteToDosArray(toDos);
 
 //delete toDo
-deleteToDo(toDos, 'testProject', 'testTitle');
+//deleteToDo(toDos, 'testProject', 'testTitle');
 
 //push the toDos array to localStorage
 setToDos('toDos', toDos);
-
-console.log(toDos);
 
 //DOM
 
@@ -71,7 +69,6 @@ function createTopNavLinks () {
         anchor.id = link.toLowerCase();
         anchor.className = 'topNavLink';
         anchor.textContent = link;
-        anchor.href = '#'+link;
     
         topNav.appendChild(anchor);    
     });
@@ -79,19 +76,19 @@ function createTopNavLinks () {
 
 createTopNavLinks();
 
-//create sidenav element
-var sidenav = document.createElement('div');
-sidenav.className = 'sidenav';
-document.body.appendChild(sidenav);
+//create sideNav element
+var sideNav = document.createElement('div');
+sideNav.className = 'sideNav';
+document.body.appendChild(sideNav);
 
-var sidenavTitleDiv = document.createElement('div');
-sidenavTitleDiv.id = 'sidenavTitleDiv';
-sidenav.appendChild(sidenavTitleDiv);
+var sideNavTitleDiv = document.createElement('div');
+sideNavTitleDiv.id = 'sideNavTitleDiv';
+sideNav.appendChild(sideNavTitleDiv);
 
-var sidenavTitle = document.createElement('h2');
-sidenavTitle.id = 'sidenavTitle';
-sidenavTitle.textContent = 'Projects';
-sidenavTitleDiv.appendChild(sidenavTitle);
+var sideNavTitle = document.createElement('h2');
+sideNavTitle.id = 'sideNavTitle';
+sideNavTitle.textContent = 'Projects';
+sideNavTitleDiv.appendChild(sideNavTitle);
 
 //add project links to sidebar
     //get an array of unique projects
@@ -99,10 +96,11 @@ let uniqueProjects = getUniqueProjects(toDos);
 
 uniqueProjects.forEach(project => {
     let projectLink = document.createElement('a');
-    projectLink.href = '#';
+    projectLink.className = 'projectLink';
+    projectLink.id = project;
     projectLink.textContent = project;
 
-    sidenav.appendChild(projectLink);
+    sideNav.appendChild(projectLink);
 });
 
 //create container element
@@ -111,46 +109,59 @@ container.id = 'container';
 document.body.appendChild(container);
 
 //get tasks based on selected project
+let selectedProject = 'testProject';
 
 
 //add tasks as items in unordered list
-var projectList = document.createElement('ul');
-container.appendChild(projectList);
+const generateTaskList = function generateTaskList() {
+    //select tasks from selected project
+    let selectedToDos = filterToDos(toDos, selectedProject);
+    console.log(selectedToDos)
 
-toDos.forEach(toDo => {
-    let toDoListItem = document.createElement('li');
-    projectList.appendChild(toDoListItem);
+    //clear container
+    container.innerHTML = "";
 
-    //add check button to mark project complete
-    let checkButtonDiv = document.createElement('div');
-    toDoListItem.appendChild(checkButtonDiv);
+    var projectList = document.createElement('ul');
+    container.appendChild(projectList);
+    
+    selectedToDos.forEach(toDo => {
+        let toDoListItem = document.createElement('li');
+        projectList.appendChild(toDoListItem);
+    
+        //add check button to mark project complete
+        let checkButtonDiv = document.createElement('div');
+        toDoListItem.appendChild(checkButtonDiv);
+    
+        let checkBox = document.createElement('input');
+        checkBox.type = 'checkbox';
+        checkBox.id = 'checkBox';
+    
+        checkButtonDiv.appendChild(checkBox);
+    
+        // add task item div
+        let taskItemDiv = document.createElement('div');
+        taskItemDiv.className = 'taskItemDiv';
+    
+        toDoListItem.appendChild(taskItemDiv);
+    
+        //add task name to task item div
+        let taskNameDiv = document.createElement('div');
+        taskNameDiv.className = 'taskNameDiv';
+        taskNameDiv.textContent = toDo.title;
+    
+        taskItemDiv.appendChild(taskNameDiv);
+    
+        //add task due date to task item div
+        let taskDueDateDiv = document.createElement('div');
+        taskDueDateDiv.className = 'taskDueDateDiv';
+        taskDueDateDiv.textContent = '\uD83D\uDCC5' + ' ' + toDo.dueDate;
+    
+        taskItemDiv.appendChild(taskDueDateDiv);
+    })
 
-    let checkBox = document.createElement('input');
-    checkBox.type = 'checkbox';
-    checkBox.id = 'checkBox';
+  };
 
-    checkButtonDiv.appendChild(checkBox);
-
-    // add task item div
-    let taskItemDiv = document.createElement('div');
-    taskItemDiv.className = 'taskItemDiv';
-
-    toDoListItem.appendChild(taskItemDiv);
-
-    //add task name to task item div
-    let taskNameDiv = document.createElement('div');
-    taskNameDiv.className = 'taskNameDiv';
-    taskNameDiv.textContent = toDo.title;
-
-    taskItemDiv.appendChild(taskNameDiv);
-
-    //add task due date to task item div
-    let taskDueDateDiv = document.createElement('div');
-    taskDueDateDiv.className = 'taskDueDateDiv';
-    taskDueDateDiv.textContent = '\uD83D\uDCC5' + ' ' + toDo.dueDate;
-
-    taskItemDiv.appendChild(taskDueDateDiv);
-})
+generateTaskList();
 
 //create footer element
 var footer = document.createElement('footer');
@@ -172,3 +183,11 @@ topNav.addEventListener('click', (event) => {
 });
 
 //add event listener to projects to filter tasks
+sideNav.addEventListener('click', (event) => {
+    const isLink = event.target.className === 'projectLink';
+    if (isLink) {
+        selectedProject = event.target.id;
+        console.log(selectedProject)
+        generateTaskList();
+    };
+});

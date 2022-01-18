@@ -3,7 +3,7 @@ body {
   }
 
 #topNav {
-    margin-left: 100px;
+    margin-left: 20%;
     color: white;
     background-color: black;
     display: flex;
@@ -24,13 +24,14 @@ body {
   }
 
   #title {
+    margin-left: 1rem;
     width: 40%;
     font-size: 2rem;
     font-family: monospace;
 }
 
 /* The sidebar menu */
-.sidenav {
+.sideNav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
@@ -43,7 +44,7 @@ body {
 }
 
 /* The navigation menu links */
-.sidenav a {
+.sideNav a {
   padding: 0rem 1rem 1rem 1rem;
   text-decoration: none;
   font-size: large;
@@ -55,11 +56,12 @@ body {
 }
 
 /* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
+.sideNav a:hover {
   color: #f1f1f1;
+  cursor: pointer;
 }
 
-#sidenavTitle {
+#sideNavTitle {
   padding: 1rem 1rem 0rem 1rem;
   font-size: larger;
   color: white;
@@ -68,8 +70,8 @@ body {
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+  .sideNav {padding-top: 15px;}
+  .sideNav a {font-size: 18px;}
 }
 
 #container {
