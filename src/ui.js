@@ -62,17 +62,19 @@ const generateTaskList = function generateTaskList(array) {
     
     array.forEach(toDo => {
         let toDoListItem = document.createElement('li');
+        toDoListItem.className = 'listItem';
         projectList.appendChild(toDoListItem);
     
         //add check button to mark project complete
-        let checkButtonDiv = document.createElement('div');
-        toDoListItem.appendChild(checkButtonDiv);
+        let checkBoxDiv = document.createElement('div');
+        checkBoxDiv.id = 'checkBoxDiv'
+        toDoListItem.appendChild(checkBoxDiv);
     
         let checkBox = document.createElement('input');
-        checkBox.type = 'checkbox';
+        checkBox.type = 'checkBox';
         checkBox.id = 'checkBox';
     
-        checkButtonDiv.appendChild(checkBox);
+        checkBoxDiv.appendChild(checkBox);
     
         // add task item div
         let taskItemDiv = document.createElement('div');
@@ -82,14 +84,16 @@ const generateTaskList = function generateTaskList(array) {
     
         //add task name to task item div
         let taskNameDiv = document.createElement('div');
-        taskNameDiv.className = 'taskNameDiv';
+        taskNameDiv.className = 'taskItem';
+        taskNameDiv.id = 'taskName';
         taskNameDiv.textContent = toDo.title;
     
         taskItemDiv.appendChild(taskNameDiv);
     
         //add task due date to task item div
         let taskDueDateDiv = document.createElement('div');
-        taskDueDateDiv.className = 'taskDueDateDiv';
+        taskDueDateDiv.className = 'taskItem';
+        taskNameDiv.id = 'taskDueDate';
         taskDueDateDiv.textContent = '\uD83D\uDCC5' + ' ' + toDo.dueDate;
     
         taskItemDiv.appendChild(taskDueDateDiv);
@@ -110,4 +114,25 @@ const addSideNavLinks = function addSideNavLinks(array) {
     })
 };
 
-export {createBaseElements, generateTaskList, addSideNavLinks};
+//create a function to generate the modal box form for editing task properties
+const createmodal = function createmodal() {
+    let popUpOverlay = document.createElement('div');
+    popUpOverlay.id = 'popUpOverlay';
+    document.body.appendChild(popUpOverlay);
+
+    let popUpBox = document.createElement('div');
+    popUpBox.id = 'popUpBox';
+    document.body.appendChild(popUpBox);
+
+    let box = document.createElement('div');
+    box.id = 'box';
+    popUpBox.appendChild(box);
+
+    let closeModal = document.createElement('div');
+    closeModal.id = 'closeModal';
+    closeModal.textContent = 'Submit';
+    closeModal.type = 'button';
+    box.appendChild(closeModal);
+};
+
+export {createBaseElements, generateTaskList, addSideNavLinks, createmodal};

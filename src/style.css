@@ -1,5 +1,7 @@
 body {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
 
 #topNav {
@@ -76,4 +78,50 @@ body {
 
 #container {
   margin-left: 30%;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+#checkBoxDiv {
+  justify-self: left;
+}
+
+.taskItem {
+  display: inline-block;
+}
+
+/* modal box */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* modal box */
+
+#popUpBox{
+  width: 500px;
+  overflow: hidden;
+  background: pink;
+  box-shadow: 0 0 10px black;
+  border-radius: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  padding: 10px;
+  text-align: center;
+  display: none;
 }
