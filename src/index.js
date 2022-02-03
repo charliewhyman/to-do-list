@@ -89,19 +89,18 @@ sideNav.addEventListener('click', (event) => {
 });
 
 //add event listener to tasks to open modal box
-let popUpBox = document.getElementById('popUpBox');
+let modal = document.getElementById('modal');
 
 document.querySelectorAll('.taskItemDiv').forEach(item => {
     item.addEventListener('click', event => {
-        popUpBox.style.display = "block";
+        modal.style.display = "block";
     })
   });
 
   //add event listener to button to close modal box
-let modalButton = document.getElementById('closeModal');
+let closeButton = document.getElementById('close');
 
-modalButton.addEventListener('click', (event) => {
-    document.getElementById('popUpBox').style.display = "none";
-    document.getElementById('popUpOverlay').style.display = "none";
+closeButton.addEventListener('click', (event) => {
+    document.getElementById('modal').style.display = "none";
 });
 

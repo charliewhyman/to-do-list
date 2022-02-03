@@ -116,23 +116,100 @@ const addSideNavLinks = function addSideNavLinks(array) {
 
 //create a function to generate the modal box form for editing task properties
 const createmodal = function createmodal() {
-    let popUpOverlay = document.createElement('div');
-    popUpOverlay.id = 'popUpOverlay';
-    document.body.appendChild(popUpOverlay);
+    let modal = document.createElement('div');
+    modal.id = 'modal';
+    document.body.appendChild(modal);
 
-    let popUpBox = document.createElement('div');
-    popUpBox.id = 'popUpBox';
-    document.body.appendChild(popUpBox);
+    let modalContent = document.createElement('div');
+    modalContent.id = 'modalContent';
+    modal.appendChild(modalContent);
 
-    let box = document.createElement('div');
-    box.id = 'box';
-    popUpBox.appendChild(box);
+    let closeButton = document.createElement('span');
+    closeButton.id = 'close';
+    closeButton.textContent = 'X';
+    modalContent.appendChild(closeButton);
 
-    let closeModal = document.createElement('div');
-    closeModal.id = 'closeModal';
-    closeModal.textContent = 'Submit';
-    closeModal.type = 'button';
-    box.appendChild(closeModal);
+    let modalForm = document.createElement('form');
+    modalForm.class = 'form';
+    modalForm.id = 'modalForm';
+    modalContent.appendChild(modalForm);
+
+    let formHeading = document.createElement('h3');
+    formHeading.id = 'formHeading';
+    formHeading.textContent = 'Edit task';
+    modalForm.appendChild(formHeading);
+    
+    let modalFormGrid = document.createElement('div');
+    modalFormGrid.id = 'modalFormGrid'
+    modalForm.appendChild(modalFormGrid);
+
+    //create an array to store form labels and input pairs {label, input}
+    let formOptions = [
+        {label: 'Task name', input: 'title'},
+        {label: 'Project', input: 'project'},
+        {label: 'Description', input: 'description'},
+        {label: 'Due date', input: 'dueDate'},
+    ];
+
+    formOptions.forEach(option => {
+        let formLabel = document.createElement('label');
+        formLabel.className = 'formLabel';
+        formLabel.id = option.input + 'Label';
+        formLabel.textContent = option.label;
+
+        let formInput = document.createElement('input');
+        formInput.className = 'formInput';
+        formInput.id = option.input + 'Input';
+        formInput.textContent = option.input;
+
+        modalFormGrid.appendChild(formLabel);
+        modalFormGrid.appendChild(formInput);
+
+    });
+
+    //set due date input type as date picker
+    let dueDateInput = document.getElementById('dueDateInput');
+    dueDateInput.type = 'date';
+
+    //create priority selector
+
+        //create select label
+    let prioritySelectLabel = document.createElement('label');
+    prioritySelectLabel.htmlFor = 'prioritySelect';
+    prioritySelectLabel.className = 'formLabel';
+    prioritySelectLabel.id = 'prioritySelectLabel';
+    prioritySelectLabel.textContent = 'Priority';
+
+    modalFormGrid.appendChild(prioritySelectLabel);
+    
+    let prioritySelect = document.createElement('select');
+    prioritySelect.className = 'select';
+    prioritySelect.id = 'prioritySelect';
+
+    modalFormGrid.appendChild(prioritySelect);
+
+        //create array to store priority options
+    let priorityOptions = ['Low', 'Medium', 'High'];
+    priorityOptions.forEach(option => {
+        let selectOption = document.createElement('option');
+        selectOption.className = 'selectOption';
+        selectOption.value = option;
+        selectOption.textContent = option;
+
+        prioritySelect.appendChild(selectOption);
+    });
+
+    //create submit div and button
+    let formSubmitDiv = document.createElement('div');
+    formSubmitDiv.id = 'formSubmitDiv';
+
+    let formSubmitButton = document.createElement('input');
+    formSubmitButton.id = 'formSubmitButton';
+    formSubmitButton.type = 'submit';
+    formSubmitButton.value = 'Submit';
+
+    modalForm.appendChild(formSubmitDiv);
+    formSubmitDiv.appendChild(formSubmitButton);
 };
 
 export {createBaseElements, generateTaskList, addSideNavLinks, createmodal};
