@@ -45,58 +45,62 @@ const createBaseElements = function createBaseElements() {
     sideNavTitle.textContent = 'Projects';
     sideNavTitleDiv.appendChild(sideNavTitle);
 
+    var addProjectButton = document.createElement('button');
+    addProjectButton.id = 'addProjectButton';
+    addProjectButton.textContent = 'Add project';
+    sideNav.appendChild(addProjectButton);
+
     //create container element
-    var container = document.createElement('div');
-    container.id = 'container';
-    document.body.appendChild(container);
+    var taskContainer = document.createElement('div');
+    taskContainer.id = 'taskContainer';
+    document.body.appendChild(taskContainer);
 };
 
 //add tasks as items in unordered list
 const generateTaskList = function generateTaskList(array) {
 
     //clear container
-    container.innerHTML = "";
+    taskContainer.innerHTML = "";
 
+    //add 'add task' button
+    var addTaskButton = document.createElement('button');
+    addTaskButton.id = 'addTaskButton';
+    addTaskButton.textContent = 'Add task';
+    taskContainer.appendChild(addTaskButton);
+
+    //add task list
     var projectList = document.createElement('ul');
-    container.appendChild(projectList);
+    projectList.id = 'projectList';
+    taskContainer.appendChild(projectList);
     
     array.forEach(toDo => {
         let toDoListItem = document.createElement('li');
         toDoListItem.className = 'listItem';
+        toDoListItem.id = 'listItem' + array.indexOf(toDo);
         projectList.appendChild(toDoListItem);
     
-        //add check button to mark project complete
-        let checkBoxDiv = document.createElement('div');
-        checkBoxDiv.id = 'checkBoxDiv'
-        toDoListItem.appendChild(checkBoxDiv);
-    
+        //add check button to mark project complete  
         let checkBox = document.createElement('input');
         checkBox.type = 'checkBox';
         checkBox.id = 'checkBox';
     
-        checkBoxDiv.appendChild(checkBox);
-    
-        // add task item div
-        let taskItemDiv = document.createElement('div');
-        taskItemDiv.className = 'taskItemDiv';
-    
-        toDoListItem.appendChild(taskItemDiv);
-    
-        //add task name to task item div
+        toDoListItem.appendChild(checkBox);
+     
+        //add task name
         let taskNameDiv = document.createElement('div');
         taskNameDiv.className = 'taskItem';
         taskNameDiv.id = 'taskName';
         taskNameDiv.textContent = toDo.title;
     
-        taskItemDiv.appendChild(taskNameDiv);
+        toDoListItem.appendChild(taskNameDiv);
     
-        //add task due date to task item div
+        //add task due date
         let taskDueDateDiv = document.createElement('div');
         taskDueDateDiv.className = 'taskItem';
-        taskNameDiv.id = 'taskDueDate';
-        taskDueDateDiv.textContent = '\uD83D\uDCC5' + ' ' + toDo.dueDate;
+        taskDueDateDiv.id = 'taskDueDate';
+        taskDueDateDiv.textContent = toDo.dueDate;
     
-        taskItemDiv.appendChild(taskDueDateDiv);
+        toDoListItem.appendChild(taskDueDateDiv);
     })
 
   };
@@ -115,7 +119,7 @@ const addSideNavLinks = function addSideNavLinks(array) {
 };
 
 //create a function to generate the modal box form for editing task properties
-const createmodal = function createmodal() {
+const createModal = function createModal() {
     let modal = document.createElement('div');
     modal.id = 'modal';
     document.body.appendChild(modal);
@@ -126,7 +130,6 @@ const createmodal = function createmodal() {
 
     let closeButton = document.createElement('span');
     closeButton.id = 'close';
-    closeButton.textContent = 'X';
     modalContent.appendChild(closeButton);
 
     let modalForm = document.createElement('form');
@@ -212,4 +215,19 @@ const createmodal = function createmodal() {
     formSubmitDiv.appendChild(formSubmitButton);
 };
 
-export {createBaseElements, generateTaskList, addSideNavLinks, createmodal};
+//create a function to highlight the selected project
+const highlightProject = function highlightProject(selectedProject) {
+    const projectLinks = document.querySelectorAll(".projectLink");
+
+    projectLinks.forEach(function(projectLink) {
+        projectLink.style.fontWeight = 'normal';
+      if (projectLink.id === selectedProject) {
+          console.log(projectLink)
+          projectLink.style.fontWeight = 'bold';
+      }
+    });
+    
+};
+
+
+export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject};

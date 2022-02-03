@@ -2,6 +2,7 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Source Sans Pro', sans-serif;
   }
 
 #topNav {
@@ -34,6 +35,9 @@ body {
 
 /* The sidebar menu */
 .sideNav {
+  display: flex;
+  flex-direction: column;
+  color: white;
   height: 100%; /* Full-height: remove this if you want "auto" height */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
@@ -45,12 +49,23 @@ body {
   width: 25%;
 }
 
+#sideNavTitle {
+  padding: 1rem 1rem 0rem 1rem;
+  font-size: 1.5rem;
+  color: white;
+  text-align: center;
+}
+
+#addProjectButton {
+  margin: 2% auto; /* 15% from the top and centered */
+  padding: 4%;
+}
+
 /* The navigation menu links */
 .sideNav a {
   padding: 0rem 1rem 1rem 1rem;
   text-decoration: none;
   font-size: large;
-  color: greenyellow;
   display: block;
   white-space: nowrap;
   overflow: hidden;
@@ -63,12 +78,7 @@ body {
   cursor: pointer;
 }
 
-#sideNavTitle {
-  padding: 1rem 1rem 0rem 1rem;
-  font-size: larger;
-  color: white;
-  text-align: center;
-}
+
 
 /* On smaller screens, where height is less than 450px, change the style of the sidebar (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
@@ -76,21 +86,23 @@ body {
   .sideNav a {font-size: 18px;}
 }
 
-#container {
+#taskContainer {
+  display: flex;
+  flex-direction: column;
   margin-left: 30%;
 }
 
+#addTaskButton {
+
+  margin: 2% auto; /* 15% from the top and centered */
+  padding: 1.5%;
+}
+
 .listItem {
+  list-style: none;
   display: flex;
-  justify-content: space-evenly;
-}
-
-#checkBoxDiv {
-  justify-self: left;
-}
-
-.taskItem {
-  display: inline-block;
+  align-items: center;
+  justify-content: space-around;
 }
 
 /* modal box */
@@ -113,6 +125,7 @@ body {
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
+  padding-top: 0px;
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
 }
@@ -121,8 +134,12 @@ body {
 #close {
   color: #aaa;
   float: right;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 38px!important;
+}
+
+#close::before, close::after {
+  display: inline-block;
+  content: '\00d7';
 }
 
 #close:hover,

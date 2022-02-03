@@ -1,6 +1,6 @@
 import {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
-import {createBaseElements, generateTaskList, addSideNavLinks, createmodal} from './ui';
+import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject} from './ui';
 
 //import {resetPage} from './ui'
 
@@ -10,17 +10,19 @@ import "./style.css";
 let toDos = [];
 
 //testing
-//create two test toDos
-let testToDo = createToDo('testTitle','testProject','testDescription','testDueDate','testPriority');
-let testToDo2 = createToDo('testTitle2','testProject2222222222222222222222222222222','testDescription2','testDueDate2','testPriority2')
+//create test toDos
+let testToDo = createToDo('Finish website design','Web development project','Complete css styling for the website','29/09/2025','High');
+let testToDo2 = createToDo('Sweep the floors','House maintenance','Sweep the downstairs floors','12/01/2027','Low');
+let testToDo3 = createToDo('Clean the windows','House maintenance','Clean the upstairs windows','03/06/2023','Low');
 
 //add the new toDos to the toDos array
 toDos.push(testToDo);
 toDos.push(testToDo2);
+toDos.push(testToDo3);
 
 //push the toDos array to localStorage
 setToDos('toDos', toDos);
-
+/* 
 //retrieve the stringified toDos object from localStorage and print
 let retrievedToDos = getToDos('toDos');
 
@@ -37,10 +39,7 @@ setToDos('toDos', toDos);
 overwriteToDosArray(toDos);
 
 //delete toDo
-//deleteToDo(toDos, 'testProject', 'testTitle');
-
-//push the toDos array to localStorage
-setToDos('toDos', toDos);
+//deleteToDo(toDos, 'testProject', 'testTitle'); */
 
 //DOM
 //create base elements
@@ -55,7 +54,7 @@ let uniqueProjects = getUniqueProjects(toDos);
 addSideNavLinks(uniqueProjects);
 
 //get tasks based on selected project
-let selectedProject = 'testProject';
+let selectedProject = 'Web development project';
 
 //select tasks from selected project
 let selectedToDos = filterToDos(toDos, selectedProject);
@@ -63,7 +62,10 @@ let selectedToDos = filterToDos(toDos, selectedProject);
 generateTaskList(selectedToDos);
 
 //create modal box for editing task properties
-createmodal();
+createModal();
+
+//highlight the selected project in the sidebar
+highlightProject(selectedProject);
 
 //event listeners
 //add event listeners to all topNav links
@@ -85,13 +87,14 @@ sideNav.addEventListener('click', (event) => {
         selectedProject = event.target.id;
         selectedToDos = filterToDos(toDos, selectedProject);
         generateTaskList(selectedToDos);
+        highlightProject(selectedProject);
     };
 });
 
 //add event listener to tasks to open modal box
 let modal = document.getElementById('modal');
 
-document.querySelectorAll('.taskItemDiv').forEach(item => {
+document.querySelectorAll('.taskItem').forEach(item => {
     item.addEventListener('click', event => {
         modal.style.display = "block";
     })
