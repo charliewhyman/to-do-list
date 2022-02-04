@@ -1,6 +1,6 @@
 import {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
-import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject, editSidenavProjects, saveSidenavProjects} from './ui';
+import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject} from './ui';
 
 //import {resetPage} from './ui'
 
@@ -104,7 +104,7 @@ const addStatusCheckboxListeners = function addStatusCheckboxListeners() {
         box.addEventListener('change', event => {
             if (box.checked == true) {
                 //if status is checked, update the status in localstorage
-                overwriteToDosArray(toDos);
+                overwriteToDosArray(toDos, 'toDos');
                 updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', true);
                 setToDos('toDos', toDos);
 
@@ -113,7 +113,7 @@ const addStatusCheckboxListeners = function addStatusCheckboxListeners() {
 
             } else {
                 //if status is checked, update the status in localstorage
-                overwriteToDosArray(toDos);
+                overwriteToDosArray(toDos, 'toDos');
                 updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', false);
                 setToDos('toDos', toDos);
 
@@ -130,7 +130,6 @@ addStatusCheckboxListeners();
 sideNav.addEventListener('click', (event) => {
     const isLink = event.target.className === 'projectLink';
     if (isLink) {
-        console.log(event.target.dataset.project)
         selectedProject = event.target.dataset.project;
         selectedToDos = filterToDos(toDos, selectedProject);
         generateTaskList(selectedToDos);
@@ -139,28 +138,3 @@ sideNav.addEventListener('click', (event) => {
         addStatusCheckboxListeners();
     };
 });
-
-//add event listener to edit project button
-const addEditProjectEventListener = function addEditProjectEventListener() {
-    let editProjectButton = document.getElementById('editProjectButton');
-
-    editProjectButton.addEventListener('click', (event) => {
-        editSidenavProjects();
-        addSaveProjectEventListener();
-    });
-};
-
-addEditProjectEventListener();
-
-//add event listener to save project button
-const addSaveProjectEventListener = function addSaveProjectEventListener() {
-    let saveProjectButton = document.getElementById('saveProjectButton');
-
-    saveProjectButton.addEventListener('click', (event) => {
-        saveSidenavProjects();
-        addEditProjectEventListener();
-    });
-}
-
-
-

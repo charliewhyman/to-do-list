@@ -54,11 +54,6 @@ const createBaseElements = function createBaseElements() {
     addProjectButton.textContent = 'Add project';
     sideNavButtonDiv.appendChild(addProjectButton);
 
-    var editProjectButton = document.createElement('button');
-    editProjectButton.id = 'editProjectButton';
-    editProjectButton.textContent = 'Edit project';
-    sideNavButtonDiv.appendChild(editProjectButton);
-
     //create container element
     var taskContainer = document.createElement('div');
     taskContainer.id = 'taskContainer';
@@ -94,7 +89,7 @@ const generateTaskList = function generateTaskList(array) {
         checkBox.className = 'statusCheckBox';
         checkBox.id = 'StatusCheckBox'+array.indexOf(toDo);
         checkBox.dataset.project = toDo.project;
-        checkBox.dataset.task = toDo.title;
+        checkBox.dataset.title = toDo.title;
     
         toDoListItem.appendChild(checkBox);
      
@@ -247,32 +242,4 @@ const highlightProject = function highlightProject(selectedProject) {
     
 };
 
-const editSidenavProjects = function editSidenavProjects() {
-    const projectLinks = document.querySelectorAll('.projectLink');
-    const editProjectButton = document.getElementById('editProjectButton');
-
-    editProjectButton.textContent = 'Save project changes';
-    editProjectButton.id = 'saveProjectButton';
-
-    projectLinks.forEach(function(projectLink) {
-        projectLink.contentEditable = true;
-        projectLink.style.border = 'thin solid red';
-        projectLink.style.borderCollapse = 'collapse';
-    });
-};
-
-const saveSidenavProjects = function saveSidenavProjects() {
-    const projectLinks = document.querySelectorAll('.projectLink');
-    const saveProjectButton = document.getElementById('saveProjectButton');
-
-    saveProjectButton.textContent = 'Edit project';
-    saveProjectButton.id = 'editProjectButton';
-
-    projectLinks.forEach(function(projectLink) {
-        projectLink.contentEditable = true;
-        projectLink.style.border = 'none';
-        projectLink.style.borderCollapse = 'none';
-    });
-};
-
-export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject, editSidenavProjects, saveSidenavProjects};
+export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject};

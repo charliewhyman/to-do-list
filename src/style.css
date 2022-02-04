@@ -64,7 +64,8 @@ body {
 
 /* The navigation menu links */
 .sideNav a {
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  margin: 0.25rem 0.5rem 0.25rem 0.5rem;
+  padding: 0.25rem;
   align-content: center;
   text-decoration: none;
   font-size: large;

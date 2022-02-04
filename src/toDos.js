@@ -8,11 +8,11 @@ const createToDo= (title, project, description, dueDate, priority, status) => {
 const updateToDo = function updateToDo(array, projectName, toDoName, propertyName, newValue) {
   //find index of matching toDo, based on the project and toDo names
   var found = array.find(function(toDo, index) {
-    if(toDo.title == 'Finish website design')
+    if(toDo.title == toDoName)
       return true;
+      found[propertyName] = newValue;
   });
 
-  found[propertyName] = newValue;
 };
 
 //this function allows the user to filter tasks based on the selected project
@@ -38,4 +38,5 @@ const getUniqueProjects = function getUniqueProjects(array) {
   let uniqueProjects = [...new Set(array.map(item => item.project))];
   return uniqueProjects;
 };
+
 export {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos};
