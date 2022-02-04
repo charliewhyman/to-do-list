@@ -11,7 +11,7 @@ let toDos = [];
 
 //testing
 //create test toDos
-let testToDo = createToDo('Finish website design','Web development project','Complete css styling for the website','29/09/2025','High', true);
+let testToDo = createToDo('Finish website design','Web development project','Complete css styling for the website','29/09/2025','High', false);
 let testToDo2 = createToDo('Sweep the floors','House maintenance','Sweep the downstairs floors','12/01/2027','Low', false);
 let testToDo3 = createToDo('Clean the windows','House maintenance','Clean the upstairs windows','03/06/2023','Low', false);
 
@@ -93,11 +93,22 @@ closeButton.addEventListener('click', (event) => {
 document.querySelectorAll('.statusCheckBox').forEach(box => {
     box.addEventListener('change', event => {
         if (box.checked == true) {
+            //if status is checked, update the status in localstorage
+            overwriteToDosArray(toDos);
+            updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', true);
+            setToDos('toDos', toDos);
+
+            //strike through the task in the list
             box.parentNode.style.textDecoration = 'line-through';
 
         } else {
+            //if status is checked, update the status in localstorage
+            overwriteToDosArray(toDos);
+            updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', false);
+            setToDos('toDos', toDos);
+
             box.parentNode.style.textDecoration = 'none';
         }
         }
     )
-})
+});

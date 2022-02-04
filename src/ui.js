@@ -84,6 +84,8 @@ const generateTaskList = function generateTaskList(array) {
         checkBox.type = 'checkBox';
         checkBox.className = 'statusCheckBox';
         checkBox.id = 'StatusCheckBox'+array.indexOf(toDo);
+        checkBox.dataset.project = toDo.project;
+        checkBox.dataset.task = toDo.title;
     
         toDoListItem.appendChild(checkBox);
      
