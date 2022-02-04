@@ -45,10 +45,19 @@ const createBaseElements = function createBaseElements() {
     sideNavTitle.textContent = 'Projects';
     sideNavTitleDiv.appendChild(sideNavTitle);
 
+    var sideNavButtonDiv = document.createElement('div');
+    sideNavButtonDiv.id = 'sideNavButtonDiv';
+    sideNav.appendChild(sideNavButtonDiv);
+
     var addProjectButton = document.createElement('button');
     addProjectButton.id = 'addProjectButton';
     addProjectButton.textContent = 'Add project';
-    sideNav.appendChild(addProjectButton);
+    sideNavButtonDiv.appendChild(addProjectButton);
+
+    var editProjectButton = document.createElement('button');
+    editProjectButton.id = 'editProjectButton';
+    editProjectButton.textContent = 'Edit project';
+    sideNavButtonDiv.appendChild(editProjectButton);
 
     //create container element
     var taskContainer = document.createElement('div');
@@ -112,12 +121,19 @@ const generateTaskList = function generateTaskList(array) {
 const addSideNavLinks = function addSideNavLinks(array) {
 
     array.forEach(project => {
+        let projectLinkDiv = document.createElement('div');
+        projectLinkDiv.className = 'projectLinkDiv';
+        projectLinkDiv.id = project+'LinkDiv';
+
+        sideNav.appendChild(projectLinkDiv);
+
         let projectLink = document.createElement('a');
         projectLink.className = 'projectLink';
-        projectLink.id = project;
+        projectLink.id = 'projectLink'+array.indexOf(project);
+        projectLink.dataset.project = project;
         projectLink.textContent = project;
 
-        sideNav.appendChild(projectLink);
+        projectLinkDiv.appendChild(projectLink);
     })
 };
 
@@ -224,12 +240,39 @@ const highlightProject = function highlightProject(selectedProject) {
 
     projectLinks.forEach(function(projectLink) {
         projectLink.style.fontWeight = 'normal';
-      if (projectLink.id === selectedProject) {
+      if (projectLink.dataset.project === selectedProject) {
           projectLink.style.fontWeight = 'bold';
       }
     });
     
 };
 
+const editSidenavProjects = function editSidenavProjects() {
+    const projectLinks = document.querySelectorAll('.projectLink');
+    const editProjectButton = document.getElementById('editProjectButton');
 
-export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject};
+    editProjectButton.textContent = 'Save project changes';
+    editProjectButton.id = 'saveProjectButton';
+
+    projectLinks.forEach(function(projectLink) {
+        projectLink.contentEditable = true;
+        projectLink.style.border = 'thin solid red';
+        projectLink.style.borderCollapse = 'collapse';
+    });
+};
+
+const saveSidenavProjects = function saveSidenavProjects() {
+    const projectLinks = document.querySelectorAll('.projectLink');
+    const saveProjectButton = document.getElementById('saveProjectButton');
+
+    saveProjectButton.textContent = 'Edit project';
+    saveProjectButton.id = 'editProjectButton';
+
+    projectLinks.forEach(function(projectLink) {
+        projectLink.contentEditable = true;
+        projectLink.style.border = 'none';
+        projectLink.style.borderCollapse = 'none';
+    });
+};
+
+export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject, editSidenavProjects, saveSidenavProjects};

@@ -56,14 +56,16 @@ body {
   text-align: center;
 }
 
-#addProjectButton {
-  margin: 2% auto; /* 15% from the top and centered */
-  padding: 4%;
+#sideNavButtonDiv {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 7%;
 }
 
 /* The navigation menu links */
 .sideNav a {
-  padding: 0rem 1rem 1rem 1rem;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  align-content: center;
   text-decoration: none;
   font-size: large;
   display: block;

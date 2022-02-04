@@ -1,6 +1,6 @@
 import {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
-import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject} from './ui';
+import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject, editSidenavProjects, saveSidenavProjects} from './ui';
 
 //import {resetPage} from './ui'
 
@@ -62,53 +62,105 @@ topNav.addEventListener('click', (event) => {
     };
 });
 
+//add event listener to tasks to open modal box
+let modal = document.getElementById('modal');
+
+const addModalEventListeners = function addModalEventListeners() {
+    document.querySelectorAll('.taskItem').forEach(item => {
+        item.addEventListener('click', event => {
+            modal.style.display = 'block';
+        })
+    });
+    
+    //add event listener to button to close modal box
+    let closeButton = document.getElementById('close');
+    
+    closeButton.addEventListener('click', (event) => {
+        modal.style.display = 'none';
+    });
+
+    //add event listener to close modal box when user clicks outside of popup
+    modal.addEventListener('click', function(event) {
+        if (event.target.id === 'modal') {
+            modal.style.display = 'none';
+        }
+    });
+
+    //add event listener to close modal box when user hits escape
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+        modal.style.display = 'none';
+        }
+    });
+};
+
+  
+
+addModalEventListeners();
+
+//add event listeners to status checkboxes to toggle done status
+const addStatusCheckboxListeners = function addStatusCheckboxListeners() {
+    document.querySelectorAll('.statusCheckBox').forEach(box => {
+        box.addEventListener('change', event => {
+            if (box.checked == true) {
+                //if status is checked, update the status in localstorage
+                overwriteToDosArray(toDos);
+                updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', true);
+                setToDos('toDos', toDos);
+
+                //strike through the task in the list
+                box.parentNode.style.textDecoration = 'line-through';
+
+            } else {
+                //if status is checked, update the status in localstorage
+                overwriteToDosArray(toDos);
+                updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', false);
+                setToDos('toDos', toDos);
+
+                box.parentNode.style.textDecoration = 'none';
+            }
+            }
+        )
+    })
+};
+
+addStatusCheckboxListeners();
+
 //add event listener to projects to filter tasks
 sideNav.addEventListener('click', (event) => {
     const isLink = event.target.className === 'projectLink';
     if (isLink) {
-        selectedProject = event.target.id;
+        console.log(event.target.dataset.project)
+        selectedProject = event.target.dataset.project;
         selectedToDos = filterToDos(toDos, selectedProject);
         generateTaskList(selectedToDos);
         highlightProject(selectedProject);
+        addModalEventListeners();
+        addStatusCheckboxListeners();
     };
 });
 
-//add event listener to tasks to open modal box
-let modal = document.getElementById('modal');
+//add event listener to edit project button
+const addEditProjectEventListener = function addEditProjectEventListener() {
+    let editProjectButton = document.getElementById('editProjectButton');
 
-document.querySelectorAll('.taskItem').forEach(item => {
-    item.addEventListener('click', event => {
-        modal.style.display = 'block';
-    })
-  });
+    editProjectButton.addEventListener('click', (event) => {
+        editSidenavProjects();
+        addSaveProjectEventListener();
+    });
+};
 
-//add event listener to button to close modal box
-let closeButton = document.getElementById('close');
+addEditProjectEventListener();
 
-closeButton.addEventListener('click', (event) => {
-    document.getElementById('modal').style.display = 'none';
-});
+//add event listener to save project button
+const addSaveProjectEventListener = function addSaveProjectEventListener() {
+    let saveProjectButton = document.getElementById('saveProjectButton');
 
-//add event listener to status checkboxes to toggle done status
-document.querySelectorAll('.statusCheckBox').forEach(box => {
-    box.addEventListener('change', event => {
-        if (box.checked == true) {
-            //if status is checked, update the status in localstorage
-            overwriteToDosArray(toDos);
-            updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', true);
-            setToDos('toDos', toDos);
+    saveProjectButton.addEventListener('click', (event) => {
+        saveSidenavProjects();
+        addEditProjectEventListener();
+    });
+}
 
-            //strike through the task in the list
-            box.parentNode.style.textDecoration = 'line-through';
 
-        } else {
-            //if status is checked, update the status in localstorage
-            overwriteToDosArray(toDos);
-            updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', false);
-            setToDos('toDos', toDos);
 
-            box.parentNode.style.textDecoration = 'none';
-        }
-        }
-    )
-});
