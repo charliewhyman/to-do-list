@@ -38,7 +38,7 @@ body {
   display: flex;
   flex-direction: column;
   color: white;
-  height: 100%; /* Full-height: remove this if you want "auto" height */
+  height: 100%; /* Full-height: remove this if you want 'auto' height */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */

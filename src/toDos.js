@@ -1,6 +1,7 @@
 //this module handles creating/modifying/removing to-do tasks (changes are made to the toDos object, which is then pushed to localStorage by the storage module)
-const createToDo= (title, project, description, dueDate, priority) => {
-    return { title, project, description, dueDate, priority };
+//status is a boolean key (task complete = true, task incomplete = false)
+const createToDo= (title, project, description, dueDate, priority, status) => {
+    return { title, project, description, dueDate, priority, status };
   };
 
 //this function allows the user to update a toDo property

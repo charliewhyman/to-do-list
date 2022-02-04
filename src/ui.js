@@ -60,7 +60,7 @@ const createBaseElements = function createBaseElements() {
 const generateTaskList = function generateTaskList(array) {
 
     //clear container
-    taskContainer.innerHTML = "";
+    taskContainer.innerHTML = '';
 
     //add 'add task' button
     var addTaskButton = document.createElement('button');
@@ -82,7 +82,8 @@ const generateTaskList = function generateTaskList(array) {
         //add check button to mark project complete  
         let checkBox = document.createElement('input');
         checkBox.type = 'checkBox';
-        checkBox.id = 'checkBox';
+        checkBox.className = 'statusCheckBox';
+        checkBox.id = 'StatusCheckBox'+array.indexOf(toDo);
     
         toDoListItem.appendChild(checkBox);
      
@@ -217,12 +218,11 @@ const createModal = function createModal() {
 
 //create a function to highlight the selected project
 const highlightProject = function highlightProject(selectedProject) {
-    const projectLinks = document.querySelectorAll(".projectLink");
+    const projectLinks = document.querySelectorAll('.projectLink');
 
     projectLinks.forEach(function(projectLink) {
         projectLink.style.fontWeight = 'normal';
       if (projectLink.id === selectedProject) {
-          console.log(projectLink)
           projectLink.style.fontWeight = 'bold';
       }
     });
