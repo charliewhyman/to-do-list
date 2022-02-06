@@ -45,9 +45,14 @@ const createBaseElements = function createBaseElements() {
     sideNavTitle.textContent = 'Projects';
     sideNavTitleDiv.appendChild(sideNavTitle);
 
+    var sideNavContainer = document.createElement('div');
+    sideNavContainer.id = 'sideNavContainer';
+    sideNavContainer.className = 'container';
+    sideNav.appendChild(sideNavContainer);
+
     var sideNavButtonDiv = document.createElement('div');
     sideNavButtonDiv.id = 'sideNavButtonDiv';
-    sideNav.appendChild(sideNavButtonDiv);
+    sideNavTitleDiv.appendChild(sideNavButtonDiv);
 
     var addProjectButton = document.createElement('button');
     addProjectButton.id = 'addProjectButton';
@@ -86,8 +91,8 @@ const generateTaskList = function generateTaskList(array) {
         //add check button to mark project complete  
         let checkBox = document.createElement('input');
         checkBox.type = 'checkBox';
-        checkBox.className = 'statusCheckBox';
-        checkBox.id = 'StatusCheckBox'+array.indexOf(toDo);
+        checkBox.className = 'doneCheckBox';
+        checkBox.id = 'doneCheckBox'+array.indexOf(toDo);
         checkBox.dataset.project = toDo.project;
         checkBox.dataset.title = toDo.title;
     
@@ -115,12 +120,15 @@ const generateTaskList = function generateTaskList(array) {
 //create a function to add project links to the sidebar
 const addSideNavLinks = function addSideNavLinks(array) {
 
+    //clear container
+    sideNavContainer.innerHTML = '';
+
     array.forEach(project => {
         let projectLinkDiv = document.createElement('div');
         projectLinkDiv.className = 'projectLinkDiv';
-        projectLinkDiv.id = project+'LinkDiv';
+        projectLinkDiv.id = 'projectLinkDiv'+array.indexOf(project);
 
-        sideNav.appendChild(projectLinkDiv);
+        sideNavContainer.appendChild(projectLinkDiv);
 
         let projectLink = document.createElement('a');
         projectLink.className = 'projectLink';
@@ -129,7 +137,39 @@ const addSideNavLinks = function addSideNavLinks(array) {
         projectLink.textContent = project;
 
         projectLinkDiv.appendChild(projectLink);
-    })
+    });
+
+    //create div for new project input
+    let newProjectInputDiv = document.createElement('div');
+    newProjectInputDiv.className = 'projectLinkDiv';
+    newProjectInputDiv.id = 'newProjectInputDiv';
+
+    sideNavContainer.appendChild(newProjectInputDiv);
+
+    //create new project input
+    let newProjectInput = document.createElement('input');
+    newProjectInput.type = 'text';
+    newProjectInput.className = 'projectLink';
+    newProjectInput.id = 'newProjectInput';
+    newProjectInput.defaultValue = 'New Project';
+
+    newProjectInputDiv.appendChild(newProjectInput);
+
+    //create new project submit button
+    let newProjectSubmitDiv = document.createElement('div');
+    newProjectSubmitDiv.id = 'newProjectSubmitDiv';
+
+    let newProjectSubmitButton = document.createElement('input');
+    newProjectSubmitButton.id = 'newProjectSubmitButton';
+    newProjectSubmitButton.type = 'submit';
+    newProjectSubmitButton.value = 'Submit';
+
+    newProjectInputDiv.appendChild(newProjectSubmitDiv);
+    newProjectSubmitDiv.appendChild(newProjectSubmitButton);
+
+    //hide the new project input and button until the add project button is pressed
+    newProjectInput.style.display = 'none';
+    newProjectSubmitButton.style.display = 'none';
 };
 
 //create a function to generate the modal box form for editing task properties

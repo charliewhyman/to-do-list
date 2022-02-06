@@ -98,23 +98,24 @@ const addModalEventListeners = function addModalEventListeners() {
 
 addModalEventListeners();
 
-//add event listeners to status checkboxes to toggle done status
-const addStatusCheckboxListeners = function addStatusCheckboxListeners() {
-    document.querySelectorAll('.statusCheckBox').forEach(box => {
+//add event listeners to done checkboxes to toggle done done
+const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
+    document.querySelectorAll('.doneCheckBox').forEach(box => {
         box.addEventListener('change', event => {
+            console.log('test')
             if (box.checked == true) {
-                //if status is checked, update the status in localstorage
+                //if done is checked, update the done in localstorage
                 overwriteToDosArray(toDos, 'toDos');
-                updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', true);
+                updateToDo(toDos, box.dataset.project, box.dataset.title, 'done', true);
                 setToDos('toDos', toDos);
 
                 //strike through the task in the list
                 box.parentNode.style.textDecoration = 'line-through';
 
             } else {
-                //if status is checked, update the status in localstorage
+                //if done is checked, update the done in localstorage
                 overwriteToDosArray(toDos, 'toDos');
-                updateToDo(toDos, box.dataset.project, box.dataset.title, 'status', false);
+                updateToDo(toDos, box.dataset.project, box.dataset.title, 'done', false);
                 setToDos('toDos', toDos);
 
                 box.parentNode.style.textDecoration = 'none';
@@ -124,7 +125,7 @@ const addStatusCheckboxListeners = function addStatusCheckboxListeners() {
     })
 };
 
-addStatusCheckboxListeners();
+addDoneCheckboxListeners();
 
 //add event listener to projects to filter tasks
 sideNav.addEventListener('click', (event) => {
@@ -135,6 +136,57 @@ sideNav.addEventListener('click', (event) => {
         generateTaskList(selectedToDos);
         highlightProject(selectedProject);
         addModalEventListeners();
-        addStatusCheckboxListeners();
+        addDoneCheckboxListeners();
     };
+});
+
+//add event listener to add project button
+let addProjectButton = document.getElementById('addProjectButton');
+let newProjectInput = document.getElementById('newProjectInput');
+let newProjectSubmitButton = document.getElementById('newProjectSubmitButton');
+
+const addProjectButtonListener = function addProjectButtonListener() {
+    addProjectButton.addEventListener('click', (event) => {
+        if (newProjectInput.style.display == 'none') {
+            console.log('test1')
+            newProjectInput.style.display = 'block';
+            newProjectSubmitButton.style.display = 'block';
+    
+            addProjectButton.textContent = 'Cancel';
+    
+        } else {
+            console.log('test2')
+
+            newProjectInput.style.display = 'none';
+            newProjectSubmitButton.style.display = 'none';
+    
+            addProjectButton.textContent = 'Add project';
+        }
+    });
+}
+
+addProjectButtonListener();
+
+//add event listener to project submit button
+newProjectSubmitButton.addEventListener('click', (event) => {
+    let newProjectValue = newProjectInput.value;
+    let newProjectToDo = createToDo('Example task', newProjectValue, 'Example description','01/01/2023','Low', false);
+    overwriteToDosArray(toDos, 'toDos');
+    toDos.push(newProjectToDo);
+    setToDos('toDos', toDos);
+
+    //add new project to sidebar
+    uniqueProjects = getUniqueProjects(toDos);
+    addSideNavLinks(uniqueProjects);
+
+    //filter task to show new project's tasks
+    selectedToDos = filterToDos(toDos, newProjectValue);
+    generateTaskList(selectedToDos);
+
+    //highlight new project
+    highlightProject(newProjectValue);
+
+    //change add project button back
+    addProjectButton.textContent = 'Add project';
+    addProjectButtonListener();
 });

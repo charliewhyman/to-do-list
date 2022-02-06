@@ -1,18 +1,18 @@
 //this module handles creating/modifying/removing to-do tasks (changes are made to the toDos object, which is then pushed to localStorage by the storage module)
-//status is a boolean key (task complete = true, task incomplete = false)
-const createToDo= (title, project, description, dueDate, priority, status) => {
-    return { title, project, description, dueDate, priority, status};
+//done is a boolean key (task complete = true, task incomplete = false)
+const createToDo= (title, project, description, dueDate, priority, done) => {
+    return { title, project, description, dueDate, priority, done};
   };
 
 //this function allows the user to update a toDo property
 const updateToDo = function updateToDo(array, projectName, toDoName, propertyName, newValue) {
   //find index of matching toDo, based on the project and toDo names
   var found = array.find(function(toDo, index) {
-    if(toDo.title == toDoName)
+    if(toDo.title == toDoName && toDo.projectName == projectName) {
       return true;
       found[propertyName] = newValue;
-  });
-
+    }
+  })
 };
 
 //this function allows the user to filter tasks based on the selected project
