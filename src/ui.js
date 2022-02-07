@@ -86,6 +86,11 @@ const generateTaskList = function generateTaskList(array) {
         let toDoListItem = document.createElement('li');
         toDoListItem.className = 'listItem';
         toDoListItem.id = 'listItem' + array.indexOf(toDo);
+        toDoListItem.dataset.title = toDo.title;
+        toDoListItem.dataset.description = toDo.description;
+        toDoListItem.dataset.dueDate = toDo.dueDate;
+        toDoListItem.dataset.priority = toDo.priority;
+
         projectList.appendChild(toDoListItem);
     
         //add check button to mark project complete  
@@ -203,7 +208,6 @@ const createModal = function createModal() {
     //create an array to store form labels and input pairs {label, input}
     let formOptions = [
         {label: 'Task name', input: 'title'},
-        {label: 'Project', input: 'project'},
         {label: 'Description', input: 'description'},
         {label: 'Due date', input: 'dueDate'},
     ];
@@ -256,7 +260,7 @@ const createModal = function createModal() {
         prioritySelect.appendChild(selectOption);
     });
 
-    //create submit div and button
+    //create submit/add task divs and buttons
     let formSubmitDiv = document.createElement('div');
     formSubmitDiv.id = 'formSubmitDiv';
 
@@ -264,9 +268,27 @@ const createModal = function createModal() {
     formSubmitButton.id = 'formSubmitButton';
     formSubmitButton.type = 'submit';
     formSubmitButton.value = 'Submit';
+    
 
     modalForm.appendChild(formSubmitDiv);
     formSubmitDiv.appendChild(formSubmitButton);
+
+    
+    let formAddTaskDiv = document.createElement('div');
+    formAddTaskDiv.id = 'formAddTaskDiv';
+    //hide the element until the 'add task' button is pressed
+    formAddTaskDiv.style.display = 'none';
+
+    let formAddTaskButton = document.createElement('input');
+    formAddTaskButton.id = 'formAddTaskButton';
+    formAddTaskButton.type = 'submit';
+    formAddTaskButton.value = 'Submit';
+
+    //hide the element until the 'add task' button is pressed
+    formAddTaskButton.style.display = 'none';
+    
+    modalForm.appendChild(formAddTaskDiv);
+    formAddTaskDiv.appendChild(formAddTaskButton);
 };
 
 //create a function to highlight the selected project

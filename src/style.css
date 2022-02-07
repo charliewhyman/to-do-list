@@ -87,8 +87,23 @@ body {
   .sideNav a {font-size: 18px;}
 }
 
+.projectLinkDiv {
+  display: flex;
+  justify-content: space-around;
+}
+
 #newProjectInputDiv {
   display: flex;
+  justify-content: space-around;
+  margin: 0.5rem;
+}
+
+#newProjectInput {
+  flex-grow: 1.5;
+}
+
+.projectLink {
+  margin-right: 1rem;
 }
 
 #taskContainer {

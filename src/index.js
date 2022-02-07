@@ -11,9 +11,9 @@ let toDos = [];
 
 //testing
 //create test toDos
-let testToDo = createToDo('Finish website design','Web development project','Complete css styling for the website','29/09/2025','High', false);
-let testToDo2 = createToDo('Sweep the floors','House maintenance','Sweep the downstairs floors','12/01/2027','Low', false);
-let testToDo3 = createToDo('Clean the windows','House maintenance','Clean the upstairs windows','03/06/2023','Low', false);
+let testToDo = createToDo('Finish website design','Web development project','Complete css styling for the website','2025-09-29','High', false);
+let testToDo2 = createToDo('Sweep the floors','House maintenance','Sweep the downstairs floors','2027-01-12','Low', false);
+let testToDo3 = createToDo('Clean the windows','House maintenance','Clean the upstairs windows','2023-03-06','Low', false);
 
 //add the new toDos to the toDos array
 toDos.push(testToDo);
@@ -65,12 +65,37 @@ topNav.addEventListener('click', (event) => {
 //add event listener to tasks to open modal box
 let modal = document.getElementById('modal');
 
-const addModalEventListeners = function addModalEventListeners() {
-    document.querySelectorAll('.taskItem').forEach(item => {
-        item.addEventListener('click', event => {
-            modal.style.display = 'block';
+let formSubmitDiv = document.getElementById('formSubmitDiv');
+let formSubmitButton = document.getElementById('formSubmitButton');
+
+let formAddTaskDiv = document.getElementById('formAddTaskDiv');
+let formAddTaskButton = document.getElementById('formAddTaskButton');
+
+let titleInput = document.getElementById('titleInput');
+let descriptionInput = document.getElementById('descriptionInput');
+let dueDateInput = document.getElementById('dueDateInput');
+let priorityOptions = document.querySelectorAll ('.selectOption');
+
+document.querySelectorAll('.listItem').forEach(item => {
+    item.addEventListener('click', event => {
+        
+        //set default input values to task values
+        titleInput.value = item.dataset.title;
+        dueDateInput.value = item.dataset.dueDate;
+        descriptionInput.value = item.dataset.description;
+
+        //select task's priority in the modal box
+        priorityOptions.forEach(option => {
+            if (option.value == item.dataset.priority) {
+                option.selected = true;
+            }
         })
-    });
+
+        modal.style.display = 'block';
+    })
+});
+//create modal box listeners
+const addModalEventListeners = function addModalEventListeners() {
     
     //add event listener to button to close modal box
     let closeButton = document.getElementById('close');
@@ -90,15 +115,27 @@ const addModalEventListeners = function addModalEventListeners() {
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
         modal.style.display = 'none';
-        }
+        };
+
+    //create 'submit'/add task button listeners
+    
+
+
+    if (formSubmitButton.style.display !== 'none') {
+        formSubmitButton.addEventListener('click', function(event) {
+            let newToDo = createToDo('Example task', newProjectValue, 'Example description','01/01/2023','Low', false);
+            overwriteToDosArray(toDos, 'toDos');
+            toDos.push(newToDo);
+            setToDos('toDos', toDos);
+        })
+    }
+
     });
 };
 
-  
-
 addModalEventListeners();
 
-//add event listeners to done checkboxes to toggle done done
+//add event listeners to done checkboxes to toggle done 
 const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
     document.querySelectorAll('.doneCheckBox').forEach(box => {
         box.addEventListener('change', event => {
@@ -135,6 +172,7 @@ sideNav.addEventListener('click', (event) => {
         selectedToDos = filterToDos(toDos, selectedProject);
         generateTaskList(selectedToDos);
         highlightProject(selectedProject);
+
         addModalEventListeners();
         addDoneCheckboxListeners();
     };
@@ -148,15 +186,13 @@ let newProjectSubmitButton = document.getElementById('newProjectSubmitButton');
 const addProjectButtonListener = function addProjectButtonListener() {
     addProjectButton.addEventListener('click', (event) => {
         if (newProjectInput.style.display == 'none') {
-            console.log('test1')
+
             newProjectInput.style.display = 'block';
             newProjectSubmitButton.style.display = 'block';
     
             addProjectButton.textContent = 'Cancel';
     
         } else {
-            console.log('test2')
-
             newProjectInput.style.display = 'none';
             newProjectSubmitButton.style.display = 'none';
     
@@ -190,3 +226,25 @@ newProjectSubmitButton.addEventListener('click', (event) => {
     addProjectButton.textContent = 'Add project';
     addProjectButtonListener();
 });
+
+//add event listener to add task button
+let addTaskButton = document.getElementById('addTaskButton');
+
+const addTaskButtonListener = function addTaskButtonListener() {
+    addTaskButton.addEventListener('click', (event) => {
+        //show modal box
+        modal.style.display = 'block';
+
+        //hide 'submit' button
+        formSubmitDiv.style.display = 'none';
+        formSubmitButton.style.display = 'none';
+
+        //show 'add task button'
+        formAddTaskDiv.style.display = 'block';
+        formAddTaskButton.style.display = 'block';
+
+        addModalEventListeners();
+    })
+};
+
+addTaskButtonListener();
