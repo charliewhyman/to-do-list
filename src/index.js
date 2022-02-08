@@ -54,11 +54,9 @@ highlightProject(selectedProject);
 topNav.addEventListener('click', (event) => {
     const isLink = event.target.tagName.toLowerCase() === 'a';
     if (isLink && event.target.id === 'home') {
-        console.log('home')
-    } else if (isLink && event.target.id === 'projects') {
-        console.log('projects')
+        console.log('home');
     } else if (isLink && event.target.id === 'about') {
-        console.log('about')
+        console.log('about');
     };
 });
 
@@ -76,24 +74,61 @@ let descriptionInput = document.getElementById('descriptionInput');
 let dueDateInput = document.getElementById('dueDateInput');
 let priorityOptions = document.querySelectorAll ('.selectOption');
 
-document.querySelectorAll('.listItem').forEach(item => {
-    item.addEventListener('click', event => {
+//add event listener to add task button
+const addTaskButtonListener = function addTaskButtonListener() {
+    let addTaskButton = document.getElementById('addTaskButton');
+    addTaskButton.addEventListener('click', (event) => {
         
-        //set default input values to task values
-        titleInput.value = item.dataset.title;
-        dueDateInput.value = item.dataset.dueDate;
-        descriptionInput.value = item.dataset.description;
-
-        //select task's priority in the modal box
-        priorityOptions.forEach(option => {
-            if (option.value == item.dataset.priority) {
-                option.selected = true;
-            }
-        })
-
+        //show modal box
         modal.style.display = 'block';
+
+        //hide 'submit' button
+        formSubmitDiv.style.display = 'none';
+        formSubmitButton.style.display = 'none';
+
+        //show 'add task button'
+        formAddTaskDiv.style.display = 'block';
+        formAddTaskButton.style.display = 'block';
+
+        //clear default values
+        titleInput.value = ''
+        dueDateInput.value = '';
+        descriptionInput.value = '';
+
+        priorityOptions.forEach(option => {
+                option.selected = false;
+        })
     })
-});
+};
+
+addTaskButtonListener();
+
+//create task item listeners
+
+const addTaskItemListeners = function addTaskItemListeners() {
+    document.querySelectorAll('.taskItem').forEach(item => {
+        item.addEventListener('click', event => {
+            
+            //set default input values to task values
+            titleInput.value = item.dataset.title;
+            dueDateInput.value = item.dataset.dueDate;
+            descriptionInput.value = item.dataset.description;
+    
+            //select task's priority in the modal box
+            priorityOptions.forEach(option => {
+                if (option.value == item.dataset.priority) {
+                    option.selected = true;
+                }
+            })
+    
+            modal.style.display = 'block';
+            
+        })
+    });
+}
+
+addTaskItemListeners();
+
 //create modal box listeners
 const addModalEventListeners = function addModalEventListeners() {
     
@@ -115,22 +150,40 @@ const addModalEventListeners = function addModalEventListeners() {
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
         modal.style.display = 'none';
-        };
+        }
+    });
 
     //create 'submit'/add task button listeners
-    
-
-
+    //if form submit button is showing, create a new example todo
     if (formSubmitButton.style.display !== 'none') {
-        formSubmitButton.addEventListener('click', function(event) {
-            let newToDo = createToDo('Example task', newProjectValue, 'Example description','01/01/2023','Low', false);
+        formAddTaskButton.addEventListener('click', function(event) {
+            //stop page refresh on submit
+            event.preventDefault();
+
+            //create a new to do and save to localstorage
+            let selectedPriority  = document.getElementById('prioritySelect').value;
+            let newToDo = createToDo(titleInput.value, selectedProject, descriptionInput.value, dueDateInput.value, selectedPriority, false);
             overwriteToDosArray(toDos, 'toDos');
             toDos.push(newToDo);
+            
             setToDos('toDos', toDos);
+
+            selectedToDos = filterToDos(toDos, selectedProject);
+            generateTaskList(selectedToDos);
+
+            //close modal box
+            modal.style.display = 'none';
+
+            addTaskButtonListener();
+            addTaskItemListeners();
+        })
+    //else update the existing todo
+    } else {
+        formAddTaskButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log('add task');
         })
     }
-
-    });
 };
 
 addModalEventListeners();
@@ -172,18 +225,21 @@ sideNav.addEventListener('click', (event) => {
         selectedToDos = filterToDos(toDos, selectedProject);
         generateTaskList(selectedToDos);
         highlightProject(selectedProject);
-
+     
+        addTaskItemListeners();
         addModalEventListeners();
         addDoneCheckboxListeners();
+        addTaskButtonListener();
     };
 });
 
 //add event listener to add project button
-let addProjectButton = document.getElementById('addProjectButton');
-let newProjectInput = document.getElementById('newProjectInput');
+
 let newProjectSubmitButton = document.getElementById('newProjectSubmitButton');
 
 const addProjectButtonListener = function addProjectButtonListener() {
+    let addProjectButton = document.getElementById('addProjectButton');
+    let newProjectInput = document.getElementById('newProjectInput');
     addProjectButton.addEventListener('click', (event) => {
         if (newProjectInput.style.display == 'none') {
 
@@ -194,8 +250,8 @@ const addProjectButtonListener = function addProjectButtonListener() {
     
         } else {
             newProjectInput.style.display = 'none';
-            newProjectSubmitButton.style.display = 'none';
-    
+            
+            
             addProjectButton.textContent = 'Add project';
         }
     });
@@ -224,27 +280,7 @@ newProjectSubmitButton.addEventListener('click', (event) => {
 
     //change add project button back
     addProjectButton.textContent = 'Add project';
+    
     addProjectButtonListener();
+    addTaskButtonListener();
 });
-
-//add event listener to add task button
-let addTaskButton = document.getElementById('addTaskButton');
-
-const addTaskButtonListener = function addTaskButtonListener() {
-    addTaskButton.addEventListener('click', (event) => {
-        //show modal box
-        modal.style.display = 'block';
-
-        //hide 'submit' button
-        formSubmitDiv.style.display = 'none';
-        formSubmitButton.style.display = 'none';
-
-        //show 'add task button'
-        formAddTaskDiv.style.display = 'block';
-        formAddTaskButton.style.display = 'block';
-
-        addModalEventListeners();
-    })
-};
-
-addTaskButtonListener();

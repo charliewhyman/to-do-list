@@ -102,7 +102,15 @@ const generateTaskList = function generateTaskList(array) {
         checkBox.dataset.title = toDo.title;
     
         toDoListItem.appendChild(checkBox);
-     
+
+        //add task priority
+        let taskPriorityDiv = document.createElement('div');
+        taskPriorityDiv.className = 'taskItem';
+        taskPriorityDiv.id = 'taskPriority';
+        taskPriorityDiv.textContent = toDo.priority;
+ 
+        toDoListItem.appendChild(taskPriorityDiv);
+
         //add task name
         let taskNameDiv = document.createElement('div');
         taskNameDiv.className = 'taskItem';
@@ -110,7 +118,7 @@ const generateTaskList = function generateTaskList(array) {
         taskNameDiv.textContent = toDo.title;
     
         toDoListItem.appendChild(taskNameDiv);
-    
+
         //add task due date
         let taskDueDateDiv = document.createElement('div');
         taskDueDateDiv.className = 'taskItem';
@@ -267,8 +275,7 @@ const createModal = function createModal() {
     let formSubmitButton = document.createElement('input');
     formSubmitButton.id = 'formSubmitButton';
     formSubmitButton.type = 'submit';
-    formSubmitButton.value = 'Submit';
-    
+    formSubmitButton.value = 'Save changes';
 
     modalForm.appendChild(formSubmitDiv);
     formSubmitDiv.appendChild(formSubmitButton);
@@ -282,7 +289,7 @@ const createModal = function createModal() {
     let formAddTaskButton = document.createElement('input');
     formAddTaskButton.id = 'formAddTaskButton';
     formAddTaskButton.type = 'submit';
-    formAddTaskButton.value = 'Submit';
+    formAddTaskButton.value = 'Add task';
 
     //hide the element until the 'add task' button is pressed
     formAddTaskButton.style.display = 'none';
