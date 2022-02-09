@@ -92,10 +92,14 @@ body {
   justify-content: space-around;
 }
 
-#newProjectInputDiv {
+.projectInputDivShow {
   display: flex;
   justify-content: space-around;
   margin: 0.5rem;
+}
+
+.projectInputDivHide {
+  display: none;
 }
 
 #newProjectInput {

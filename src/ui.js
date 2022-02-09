@@ -127,7 +127,6 @@ const generateTaskList = function generateTaskList(array) {
     
         toDoListItem.appendChild(taskDueDateDiv);
     })
-
   };
 
 //create a function to add project links to the sidebar
@@ -154,7 +153,7 @@ const addSideNavLinks = function addSideNavLinks(array) {
 
     //create div for new project input
     let newProjectInputDiv = document.createElement('div');
-    newProjectInputDiv.className = 'projectLinkDiv';
+    newProjectInputDiv.className = 'projectInputDivHide';
     newProjectInputDiv.id = 'newProjectInputDiv';
 
     sideNavContainer.appendChild(newProjectInputDiv);
@@ -179,10 +178,6 @@ const addSideNavLinks = function addSideNavLinks(array) {
 
     newProjectInputDiv.appendChild(newProjectSubmitDiv);
     newProjectSubmitDiv.appendChild(newProjectSubmitButton);
-
-    //hide the new project input and button until the add project button is pressed
-    newProjectInput.style.display = 'none';
-    newProjectSubmitButton.style.display = 'none';
 };
 
 //create a function to generate the modal box form for editing task properties

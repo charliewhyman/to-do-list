@@ -29,12 +29,6 @@ createBaseElements();
 
 let sideNav = document.getElementById('sideNav');
 
-//add project links to sidebar
-    //get an array of unique projects
-let uniqueProjects = getUniqueProjects(toDos);
-
-addSideNavLinks(uniqueProjects);
-
 //get tasks based on selected project
 let selectedProject = 'Web development project';
 
@@ -42,6 +36,12 @@ let selectedProject = 'Web development project';
 let selectedToDos = filterToDos(toDos, selectedProject);
 
 generateTaskList(selectedToDos);
+
+//add project links to sidebar
+    //get an array of unique projects
+let uniqueProjects = getUniqueProjects(toDos);
+
+addSideNavLinks(uniqueProjects);
 
 //create modal box for editing task properties
 createModal();
@@ -106,7 +106,7 @@ addTaskButtonListener();
 //create task item listeners
 
 const addTaskItemListeners = function addTaskItemListeners() {
-    document.querySelectorAll('.taskItem').forEach(item => {
+    document.querySelectorAll('.listItem').forEach(item => {
         item.addEventListener('click', event => {
             
             //set default input values to task values
@@ -235,24 +235,23 @@ sideNav.addEventListener('click', (event) => {
 
 //add event listener to add project button
 
-let newProjectSubmitButton = document.getElementById('newProjectSubmitButton');
-
 const addProjectButtonListener = function addProjectButtonListener() {
     let addProjectButton = document.getElementById('addProjectButton');
-    let newProjectInput = document.getElementById('newProjectInput');
-    addProjectButton.addEventListener('click', (event) => {
-        if (newProjectInput.style.display == 'none') {
 
-            newProjectInput.style.display = 'block';
-            newProjectSubmitButton.style.display = 'block';
+    let newProjectInputDiv = document.getElementById('newProjectInputDiv');
+
     
-            addProjectButton.textContent = 'Cancel';
-    
+    addProjectButton.addEventListener('click', (event) => {
+
+        if (newProjectInputDiv.className == 'projectInputDivHide') {
+            newProjectInputDiv.className = 'projectInputDivShow';
+            addProjectButton.textContent = 'Cancel';     
         } else {
-            newProjectInput.style.display = 'none';
+            newProjectInputDiv.className = 'projectInputDivHide';
+            addProjectButton.textContent = 'Add project';   
             
-            
-            addProjectButton.textContent = 'Add project';
+            addProjectSubmitButtonListener();
+
         }
     });
 }
@@ -260,27 +259,45 @@ const addProjectButtonListener = function addProjectButtonListener() {
 addProjectButtonListener();
 
 //add event listener to project submit button
-newProjectSubmitButton.addEventListener('click', (event) => {
-    let newProjectValue = newProjectInput.value;
-    let newProjectToDo = createToDo('Example task', newProjectValue, 'Example description','01/01/2023','Low', false);
-    overwriteToDosArray(toDos, 'toDos');
-    toDos.push(newProjectToDo);
-    setToDos('toDos', toDos);
+const addProjectSubmitButtonListener = function addProjectSubmitButtonListener() {
+    newProjectSubmitButton.addEventListener('click', (event) => {
+        let newProjectInput = document.getElementById('newProjectInput');
+        let newProjectValue = newProjectInput.value;
 
-    //add new project to sidebar
-    uniqueProjects = getUniqueProjects(toDos);
-    addSideNavLinks(uniqueProjects);
+        //check if project value already exists
+        overwriteToDosArray(toDos, 'toDos');
 
-    //filter task to show new project's tasks
-    selectedToDos = filterToDos(toDos, newProjectValue);
-    generateTaskList(selectedToDos);
+        let existingProjects = getUniqueProjects(toDos);
+        console.log(existingProjects)
+        console.log(newProjectValue)
 
-    //highlight new project
-    highlightProject(newProjectValue);
+        if (existingProjects.includes(newProjectValue)) {
+            alert('Project already exists!');
+        } else {
+            let newProjectToDo = createToDo('Example task', newProjectValue, 'Example description','01/01/2023','Low', false);
+            toDos.push(newProjectToDo);
+            setToDos('toDos', toDos);
+        
+            //add new project to sidebar
+            uniqueProjects = getUniqueProjects(toDos);
+            addSideNavLinks(uniqueProjects);
+        
+            //filter task to show new project's tasks
+            selectedToDos = filterToDos(toDos, newProjectValue);
+            generateTaskList(selectedToDos);
+        
+            //highlight new project
+            highlightProject(newProjectValue);
+        
+            newProjectInputDiv.className = 'projectInputDivHide';
+            addProjectButton.textContent = 'Add project'; 
 
-    //change add project button back
-    addProjectButton.textContent = 'Add project';
+            addProjectButtonListener();
+            addTaskButtonListener();
+        }
+        
+    });
+}
+
+addProjectSubmitButtonListener();
     
-    addProjectButtonListener();
-    addTaskButtonListener();
-});
