@@ -1,4 +1,4 @@
-import {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
+import {createToDo, updateToDo, returnToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
 import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject} from './ui';
 
@@ -52,6 +52,8 @@ highlightProject(selectedProject);
 //event listeners
 //add event listener to tasks to open modal box
 let modal = document.getElementById('modal');
+
+let modalForm = document.getElementById('modalForm');
 
 let formSubmitDiv = document.getElementById('formSubmitDiv');
 let formSubmitButton = document.getElementById('formSubmitButton');
@@ -112,7 +114,18 @@ const addTaskItemListeners = function addTaskItemListeners() {
             })
     
             modal.style.display = 'block';
-            
+
+            //show 'save changes' button
+            formSubmitDiv.style.display = 'block';
+            formSubmitButton.style.display = 'block';
+
+            //show 'add task button'
+            formAddTaskDiv.style.display = 'none';
+            formAddTaskButton.style.display = 'none';
+
+            //save selected toDo
+            let selectedTitle = item.dataset.title; 
+            localStorage.setItem('selectedTitle', selectedTitle)
         })
     });
 }
@@ -139,14 +152,16 @@ const addModalEventListeners = function addModalEventListeners() {
     //add event listener to close modal box when user hits escape
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-        modal.style.display = 'none';
+            modal.style.display = 'none';
         }
     });
 
     //create 'submit'/add task button listeners
     //if form submit button is showing, create a new example todo
-    if (formSubmitButton.style.display !== 'none') {
-        formAddTaskButton.addEventListener('click', function(event) {
+    if (formAddTaskButton.style.display !== 'none') {
+        modalForm.addEventListener('submit', function(event) {
+            console.log('1')
+
             //stop page refresh on submit
             event.preventDefault();
 
@@ -167,10 +182,32 @@ const addModalEventListeners = function addModalEventListeners() {
             addTaskButtonListener();
             addTaskItemListeners();
         })
-    //else update the existing todo
     } else {
-        formAddTaskButton.addEventListener('click', function(event) {
+        modalForm.addEventListener('submit', function(event) {
+            console.log('2')
+            //stop page refresh on submit
             event.preventDefault();
+
+            let selectedTitle = localStorage.getItem('selectedTitle')
+            deleteToDo(toDos, selectedProject, selectedTitle)
+            setToDos('toDos', toDos);
+
+            //create a new to do and save to localstorage
+            let selectedPriority  = document.getElementById('prioritySelect').value;
+            let newToDo = createToDo(titleInput.value, selectedProject, descriptionInput.value, dueDateInput.value, selectedPriority, false);
+
+            toDos.push(newToDo);
+            
+            setToDos('toDos', toDos);
+
+            selectedToDos = filterToDos(toDos, selectedProject);
+            generateTaskList(selectedToDos);
+
+             //close modal box
+             modal.style.display = 'none';
+
+             addTaskButtonListener();
+             addTaskItemListeners();
         })
     }
 };

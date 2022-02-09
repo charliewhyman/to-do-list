@@ -23,6 +23,14 @@ const filterToDos = function updateToDo(array, projectName) {
   return result;
 };
 
+//this function returns a toDo matching the project and task name
+const returnToDo = function returnToDo(array, projectName, toDoName) {
+  //find index of matching toDo, based on the project and toDo names
+  let foundObjectIndex = array.findIndex((obj => (obj.project == projectName && obj.title == toDoName)));
+
+  return array[foundObjectIndex];
+};
+
 //this function allows the user to delete a toDo
 const deleteToDo = function deleteToDo(array, projectName, toDoName) {
   //find index of matching toDo, based on the project and toDo names
@@ -31,7 +39,8 @@ const deleteToDo = function deleteToDo(array, projectName, toDoName) {
   //remove object from array 
   if (foundObjectIndex > -1) {
     array.splice(foundObjectIndex, 1);
-  }};
+  }
+};
 
 const getUniqueProjects = function getUniqueProjects(array) {
   //get the unique project values from the array
@@ -39,4 +48,4 @@ const getUniqueProjects = function getUniqueProjects(array) {
   return uniqueProjects;
 };
 
-export {createToDo, updateToDo, deleteToDo, getUniqueProjects, filterToDos};
+export {createToDo, updateToDo, returnToDo, deleteToDo, getUniqueProjects, filterToDos};

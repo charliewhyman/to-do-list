@@ -212,6 +212,7 @@ const createModal = function createModal() {
         formInput.className = 'formInput';
         formInput.id = option.input + 'Input';
         formInput.textContent = option.input;
+        formInput.required = true;
 
         modalFormGrid.appendChild(formLabel);
         modalFormGrid.appendChild(formInput);

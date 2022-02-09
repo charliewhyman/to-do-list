@@ -184,3 +184,9 @@ body {
 .formInput {
   color: black;
 }
+
+.formInputInvalid {
+  color: black;
+  border: 2px dashed red;
+
+}
