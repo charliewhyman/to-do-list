@@ -50,16 +50,6 @@ createModal();
 highlightProject(selectedProject);
 
 //event listeners
-//add event listeners to all topNav links
-topNav.addEventListener('click', (event) => {
-    const isLink = event.target.tagName.toLowerCase() === 'a';
-    if (isLink && event.target.id === 'home') {
-        console.log('home');
-    } else if (isLink && event.target.id === 'about') {
-        console.log('about');
-    };
-});
-
 //add event listener to tasks to open modal box
 let modal = document.getElementById('modal');
 
@@ -181,7 +171,6 @@ const addModalEventListeners = function addModalEventListeners() {
     } else {
         formAddTaskButton.addEventListener('click', function(event) {
             event.preventDefault();
-            console.log('add task');
         })
     }
 };
@@ -192,7 +181,6 @@ addModalEventListeners();
 const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
     document.querySelectorAll('.doneCheckBox').forEach(box => {
         box.addEventListener('change', event => {
-            console.log('test')
             if (box.checked == true) {
                 //if done is checked, update the done in localstorage
                 overwriteToDosArray(toDos, 'toDos');
@@ -268,8 +256,6 @@ const addProjectSubmitButtonListener = function addProjectSubmitButtonListener()
         overwriteToDosArray(toDos, 'toDos');
 
         let existingProjects = getUniqueProjects(toDos);
-        console.log(existingProjects)
-        console.log(newProjectValue)
 
         if (existingProjects.includes(newProjectValue)) {
             alert('Project already exists!');

@@ -17,19 +17,6 @@ const createBaseElements = function createBaseElements() {
 
     topNav.appendChild(title);
 
-    //add links to the topNav
-
-    var links = ['Home', 'About'];
-
-    links.forEach(link=> {
-        let anchor = document.createElement('a');
-        anchor.id = link.toLowerCase();
-        anchor.className = 'topNavLink';
-        anchor.textContent = link;
-
-        topNav.appendChild(anchor);    
-    });
-
     //create sideNav element
     var sideNav = document.createElement('div');
     sideNav.className = 'sideNav';
