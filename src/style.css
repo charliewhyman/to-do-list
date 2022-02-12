@@ -123,6 +123,15 @@ body {
 }
 
 .listItem {
+  text-decoration: none;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.listItemStrikethrough {
+  text-decoration: line-through;
   list-style: none;
   display: flex;
   align-items: center;

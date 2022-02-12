@@ -100,33 +100,36 @@ addTaskButtonListener();
 const addTaskItemListeners = function addTaskItemListeners() {
     document.querySelectorAll('.listItem').forEach(item => {
         item.addEventListener('click', event => {
+            if (event.target.className !== 'doneCheckBox') {
+                
             
-            //set default input values to task values
-            titleInput.value = item.dataset.title;
-            dueDateInput.value = item.dataset.dueDate;
-            descriptionInput.value = item.dataset.description;
-    
-            //select task's priority in the modal box
-            priorityOptions.forEach(option => {
-                if (option.value == item.dataset.priority) {
-                    option.selected = true;
-                }
-            })
-    
-            modal.style.display = 'block';
+                //set default input values to task values
+                titleInput.value = item.dataset.title;
+                dueDateInput.value = item.dataset.dueDate;
+                descriptionInput.value = item.dataset.description;
+        
+                //select task's priority in the modal box
+                priorityOptions.forEach(option => {
+                    if (option.value == item.dataset.priority) {
+                        option.selected = true;
+                    }
+                })
+        
+                modal.style.display = 'block';
 
-            //show 'save changes' button
-            formSubmitDiv.style.display = 'block';
-            formSubmitButton.style.display = 'block';
+                //show 'save changes' button
+                formSubmitDiv.style.display = 'block';
+                formSubmitButton.style.display = 'block';
 
-            //show 'add task button'
-            formAddTaskDiv.style.display = 'none';
-            formAddTaskButton.style.display = 'none';
+                //show 'add task button'
+                formAddTaskDiv.style.display = 'none';
+                formAddTaskButton.style.display = 'none';
 
-            //save selected toDo
-            let selectedTitle = item.dataset.title; 
-            localStorage.setItem('selectedTitle', selectedTitle)
-        })
+                //save selected toDo
+                let selectedTitle = item.dataset.title; 
+                localStorage.setItem('selectedTitle', selectedTitle)
+            };
+        });
     });
 }
 
@@ -160,7 +163,6 @@ const addModalEventListeners = function addModalEventListeners() {
     //if form submit button is showing, create a new example todo
     if (formAddTaskButton.style.display !== 'none') {
         modalForm.addEventListener('submit', function(event) {
-            console.log('1')
 
             //stop page refresh on submit
             event.preventDefault();
@@ -181,10 +183,10 @@ const addModalEventListeners = function addModalEventListeners() {
 
             addTaskButtonListener();
             addTaskItemListeners();
+            addDoneCheckboxListeners();
         })
     } else {
         modalForm.addEventListener('submit', function(event) {
-            console.log('2')
             //stop page refresh on submit
             event.preventDefault();
 
@@ -221,11 +223,12 @@ const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
             if (box.checked == true) {
                 //if done is checked, update the done in localstorage
                 overwriteToDosArray(toDos, 'toDos');
+
                 updateToDo(toDos, box.dataset.project, box.dataset.title, 'done', true);
                 setToDos('toDos', toDos);
 
                 //strike through the task in the list
-                box.parentNode.style.textDecoration = 'line-through';
+                box.parentNode.className = 'listItemStrikethrough';
 
             } else {
                 //if done is checked, update the done in localstorage
@@ -233,7 +236,7 @@ const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
                 updateToDo(toDos, box.dataset.project, box.dataset.title, 'done', false);
                 setToDos('toDos', toDos);
 
-                box.parentNode.style.textDecoration = 'none';
+                box.parentNode.className = 'listItem';
             }
             }
         )
