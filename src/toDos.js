@@ -9,10 +9,8 @@ const updateToDo = function updateToDo(array, projectName, toDoName, propertyNam
   //find index of matching toDo, based on the project and toDo names
   let foundIndex = array.findIndex(toDo => toDo.title === toDoName && toDo.project === projectName)
   let foundObject = array[foundIndex];
-  console.log(foundObject)
 
   foundObject[propertyName] = newValue;
-  console.log(foundObject)
 };
 
 //this function allows the user to filter tasks based on the selected project

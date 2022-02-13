@@ -1,6 +1,6 @@
 import {createToDo, updateToDo, returnToDo, deleteToDo, getUniqueProjects, filterToDos} from './toDos';
 import {getToDos, setToDos, overwriteToDosArray} from './storage';
-import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject} from './ui';
+import {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject, checkCompletedProjects} from './ui';
 
 //import {resetPage} from './ui'
 
@@ -13,7 +13,7 @@ let toDos = [];
 //create test toDos
 let testToDo = createToDo('Finish website design','Web development project','Complete css styling for the website','2025-09-29','High', false);
 let testToDo2 = createToDo('Sweep the floors','House maintenance','Sweep the downstairs floors','2027-01-12','Low', false);
-let testToDo3 = createToDo('Clean the windows','House maintenance','Clean the upstairs windows','2023-03-06','Low', false);
+let testToDo3 = createToDo('Clean the windows','House maintenance','Clean the upstairs windows','2023-03-06','Low', true);
 
 //add the new toDos to the toDos array
 toDos.push(testToDo);
@@ -42,6 +42,8 @@ generateTaskList(selectedToDos);
 let uniqueProjects = getUniqueProjects(toDos);
 
 addSideNavLinks(uniqueProjects);
+
+checkCompletedProjects();
 
 //create modal box for editing task properties
 createModal();
@@ -184,32 +186,36 @@ const addModalEventListeners = function addModalEventListeners() {
             addTaskButtonListener();
             addTaskItemListeners();
             addDoneCheckboxListeners();
+            checkCompletedProjects();
         })
     } else {
         modalForm.addEventListener('submit', function(event) {
             //stop page refresh on submit
             event.preventDefault();
 
-            let selectedTitle = localStorage.getItem('selectedTitle')
-            deleteToDo(toDos, selectedProject, selectedTitle)
-            setToDos('toDos', toDos);
+            let selectedTitle = localStorage.getItem('selectedTitle');
+            let selectedToDo = returnToDo(toDos, selectedProject, selectedTitle);
+            let selectedPriority = document.getElementById('prioritySelect').value;
+            let selectedDoneStatus = selectedToDo.done;
+
+            deleteToDo(toDos, selectedProject, selectedTitle);
 
             //create a new to do and save to localstorage
-            let selectedPriority  = document.getElementById('prioritySelect').value;
-            let newToDo = createToDo(titleInput.value, selectedProject, descriptionInput.value, dueDateInput.value, selectedPriority, false);
-
+            let newToDo = createToDo(titleInput.value, selectedProject, descriptionInput.value, dueDateInput.value, selectedPriority, selectedDoneStatus);
             toDos.push(newToDo);
             
             setToDos('toDos', toDos);
 
-            selectedToDos = filterToDos(toDos, selectedProject);
-            generateTaskList(selectedToDos);
+            selectedToDo = filterToDos(toDos, selectedProject);
+            generateTaskList(selectedToDo);
 
              //close modal box
              modal.style.display = 'none';
 
              addTaskButtonListener();
              addTaskItemListeners();
+             addDoneCheckboxListeners();
+             checkCompletedProjects();
         })
     }
 };
@@ -230,6 +236,9 @@ const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
                 //strike through the task in the list
                 box.parentNode.className = 'listItemStrikethrough';
 
+                //set the status in the parent list item
+                box.parentNode.dataset.done = true;
+
             } else {
                 //if done is checked, update the done in localstorage
                 overwriteToDosArray(toDos, 'toDos');
@@ -237,6 +246,9 @@ const addDoneCheckboxListeners = function addDoneCheckboxListeners() {
                 setToDos('toDos', toDos);
 
                 box.parentNode.className = 'listItem';
+
+                //set the status in the parent list item
+                box.parentNode.dataset.done = false;
             }
             }
         )
@@ -258,6 +270,7 @@ sideNav.addEventListener('click', (event) => {
         addModalEventListeners();
         addDoneCheckboxListeners();
         addTaskButtonListener();
+        checkCompletedProjects();
     };
 });
 

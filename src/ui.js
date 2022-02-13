@@ -71,12 +71,18 @@ const generateTaskList = function generateTaskList(array) {
     
     array.forEach(toDo => {
         let toDoListItem = document.createElement('li');
-        toDoListItem.className = 'listItem';
         toDoListItem.id = 'listItem' + array.indexOf(toDo);
         toDoListItem.dataset.title = toDo.title;
         toDoListItem.dataset.description = toDo.description;
         toDoListItem.dataset.dueDate = toDo.dueDate;
         toDoListItem.dataset.priority = toDo.priority;
+        toDoListItem.dataset.done = toDo.done;
+
+        if (toDo.done === true) {
+            toDoListItem.className = 'listItemStrikethrough';
+        } else {
+            toDoListItem.className = 'listItem';
+        };
 
         projectList.appendChild(toDoListItem);
     
@@ -87,6 +93,7 @@ const generateTaskList = function generateTaskList(array) {
         checkBox.id = 'doneCheckBox'+array.indexOf(toDo);
         checkBox.dataset.project = toDo.project;
         checkBox.dataset.title = toDo.title;
+        checkBox.checked = toDo.done;
     
         toDoListItem.appendChild(checkBox);
 
@@ -294,4 +301,16 @@ const highlightProject = function highlightProject(selectedProject) {
     
 };
 
-export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject};
+//create a function to strikethrough and check completed tasks
+
+const checkCompletedProjects = function checkCompletedProjects() {
+    document.querySelectorAll('.doneCheckBox').forEach(box => {
+        if (box.parentElement.dataset.done === true) {
+            box.checked == true;
+        } else {
+            box.checked == false;
+        }
+    })
+};
+
+export {createBaseElements, generateTaskList, addSideNavLinks, createModal, highlightProject, checkCompletedProjects};
